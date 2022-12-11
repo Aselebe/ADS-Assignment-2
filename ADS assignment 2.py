@@ -111,6 +111,42 @@ def Electricity(filename):
 
 Electricity(url)
 
+def Cereal_yield(filename):
+   indicator_payload = data[0][indicators == "Cereal yield (kg per hectare)"]
+   
+   #Get Countries
+   country_df = indicator_payload.iloc[:,:]
+
+   #filtered to show only specific country
+   filtered_country_df = country_df[country_df['Data Source'].isin(["Canada","United Arab Emirates", "China","United Kingdom","Italy", "Japan", "Nigeria", "Indonesia" "South africa", "Austrialia","Afghanistan" ,"Albania"])]
+   country_column = filtered_country_df.loc[:,'Data Source']
+   countries = [country for country in country_column]
+
+   #Select years
+   year_payload = filtered_country_df.iloc[:,[36,41,45,50,55,60,65]]
+   
+   records = year_payload.set_axis(['1991','1996','2001', '2006', '2011', '2016','2021'], axis=1)
+   
+   year1991 = [value for value in records.loc[:, '1991']]
+   year1996 = [value for value in records.loc[:, '1996']]
+   year2001 = [value for value in records.loc[:, '2001']]
+   year2006 = [value for value in records.loc[:, '2006']]
+   year2011 = [value for value in records.loc[:, '2011']]
+   year2016 = [value for value in records.loc[:, '2016']]
+   year2021 = [value for value in records.loc[:, '2021']]
+   
+   dataFrame = pd.DataFrame({'1991':year1991,'1996':year1996,'2001':year2001, '2006':year2006, '2011':year2011, '2016':year2016}, index = countries)
+   
+   dataFrame.plot.bar(rot=45, title="Cereal yield (kg per hectare)")
+   dataFrame.transpose().plot(rot=45,linestyle='dashed', title="Cereal yield (kg per hectare)")
+   plt.xlabel("Country Name")
+   plt.show()
+   
+
+Cereal_yield(url)
+
+
+
 
 
 
